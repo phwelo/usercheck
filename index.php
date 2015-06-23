@@ -2,23 +2,25 @@
 echo '<div class="title box">User Info Lookup</div>';
 $usrlogged = $_SERVER['PHP_AUTH_USER'];
 
+$settings = parse_ini_file("userinfo.conf", true);
+
 if ($_GET["u"]){
   $user = $_GET["u"];
 }
 else {$user = $_SERVER['PHP_AUTH_USER'];}
 
-$servername = "kbox.levelone.local";
-$username = "R1";
-$password = "box747";
-$dbname = "ORG1";
+$servername = $settings[kace][kace];
+$username = $settings[kace][kaceuser];
+$password = $settings[kace][kacepass];
+$dbname = $settings[kace][kacedb];
 
-$lserver = 'ldap://dc2.levelone.local';
-$luser = 'nadagans@levelone.local';
-$lpsw = 'ALsk1029ALsk1029';
-$ldn = 'dc=LEVELONE,dc=LOCAL';
+$lserver = $settings[ldap][ldapserver];
+$luser = $settings[ldap][ldapuser];
+$lpsw = $settings[ldap][ldappass];
+$ldn = $settings[ldap][ldapDN];
 $lsearch = "samaccountname=$user";
 
-$url = 'http://dc2.levelone.local/password/apr.dll/api/enrollments/levelone/' . $user;
+$url = $settings[anixis][anixisURL] . $user;
 $opts = array('http' =>
     array(
         'method' => 'GET',
